@@ -1,8 +1,7 @@
-# Project Name
+# Random Scripts
 
-This project includes the following scripts:
+This project includes the following random but useful scripts:
 
 | File Name | Description |
 | --- | --- |
-| `README.md` |  |
 | `gc` | This script will create a git commit with comment and push to remote origin repo.  |
