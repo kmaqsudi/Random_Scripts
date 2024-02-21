@@ -1,4 +1,4 @@
-# Random Scripts
+# List of Scripts along with brief description
 
 This project includes the following random but useful scripts:
 
