@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# This script will create a git commit with comment and push to remote origin repo. 
+
+# Function to check if user input is empty
+check_commit_message() {
+    if [ -z "$1" ]; then
+        echo "Please provide a commit message"
+        exit 1
+    fi
+}
+
+# Function to check if user is in a git repo
+check_git_repo() {
+    if [ ! -d ".git" ]; then
+        echo "This is not a git repository"
+        exit 1
+    fi
+}
+
+
+check_changes_to_commit() {
+    if [ -z "$(git status --porcelain)" ]; then
+        echo "No changes to commit"
+        exit 1
+    fi
+}
+
+# Function to check if user is on a branch
+check_branch() {
+    if [ -z "$(git branch --show-current)" ]; then
+        echo "You are not on a branch"
+        exit 1
+    fi
+}
+
+# Function to add all files to commit and print out the files added
+#
+add_files() {
+    echo "Adding files to commit"
+    echo -e "\nThe following files are modified/added or removed:" && git status --porcelain | awk '{print "*" " " $2}' && echo -e "\n"
+    git add .
+}
+
+# Function for git commit
+git_commit() {
+    echo "Running git commit with message: '$1'"
+    git commit -m "$1"
+}
+
+# Function to prompt user for pushing to remote
+prompt_push() {
+    while true; do
+        read -p "Do you wish to push to remote? (y/n): " yn
+        case $yn in
+            [Yy]* ) git push; break;;
+            [Nn]* ) exit;;
+            * ) echo "Please answer yes (y) or no (n).";;
+        esac
+    done
+}
+
+# Main function
+gc() {
+    check_commit_message "$1"
+    check_git_repo
+    check_changes_to_commit
+    check_branch
+    add_files
+    git_commit "$1"
+    prompt_push
+}
+
+gc "$1"
