@@ -62,13 +62,13 @@ prompt_push() {
 
 # Main function
 gc() {
-    check_commit_message "$1"
-    check_git_repo
-    check_changes_to_commit
-    check_branch
-    add_files
-    git_commit "$1"
-    prompt_push
+    check_commit_message "$1" || exit 1
+    check_git_repo || exit 1
+    check_changes_to_commit || exit 1
+    check_branch || exit 1
+    add_files || exit 1
+    git_commit "$1" || exit 1
+    prompt_push || exit 1
 }
 
 gc "$1"
